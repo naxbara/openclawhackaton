@@ -32,12 +32,58 @@ seguimiento, reintentar, y cerrar el ciclo.
 
 ---
 
-## INTEGRACIÓN WEBHOOK
+## INTEGRACIÓN DISCORD (Composio + Webhook)
 
-Todo evento de delivery debe persistirse vía HTTP al sistema backend.
+Las notificaciones a residentes se envían al servidor Discord **DonElias**
+usando un webhook. El AIC envía mensajes al canal correspondiente del
+residente (o al #general si no hay canal específico).
+
+### Discord Webhook — Notificación a Residentes
+
+```
+POST https://discord.com/api/webhooks/{WEBHOOK_ID}/{WEBHOOK_TOKEN}
+Content-Type: application/json
+```
+
+**Enviar notificación:**
+```json
+{
+  "username": "AIC",
+  "content": "🍕 Maria, llegó tu pedido de Rappi! Baja pronto 🔥 — AIC"
+}
+```
+
+**Con embed (formato enriquecido):**
+```json
+{
+  "username": "AIC",
+  "embeds": [{
+    "title": "📦 Delivery para Depto 302",
+    "description": "Paquete de Falabella esperando en conserjería",
+    "color": 5814783,
+    "fields": [
+      { "name": "Categoría", "value": "Encomienda", "inline": true },
+      { "name": "Clock", "value": "72 horas", "inline": true },
+      { "name": "Estado", "value": "NOTIFICADO", "inline": true }
+    ]
+  }]
+}
+```
+
+**Respuesta esperada:** HTTP 204 No Content (éxito, sin body)
+
+### Composio Integration (Hackathon)
+
+Composio está conectado al servidor DonElias vía Discord Bot OAuth.
+- **Connected Account ID**: `823da91e-3407-4b2d-8871-2262b956e281`
+- **Guild ID**: `1477408784417816677`
+- **System Channel**: `1477408784870674484`
+- **Acción disponible**: `DISCORDBOT_CREATE_MESSAGE`
+
+### Webhook Backend — Persistencia
+
+Todo evento de delivery también se persiste vía HTTP al sistema backend.
 El AIC **siempre** llama al webhook antes de actualizar `MEMORY.md`.
-
-### Endpoint
 
 ```
 POST http://localhost:3001/webhook/paquete
@@ -97,11 +143,13 @@ Usar el `paquete_id` retornado como ID del delivery en `MEMORY.md` y en el log.
 { "success": true }
 ```
 
-### Manejo de errores del webhook
+### Manejo de errores
 
 | Situación | Acción |
 |-----------|---------|
-| `success: true` | Continuar flujo normal |
+| Discord 204 | Mensaje enviado OK |
+| Discord 429 | Rate limited — esperar `retry_after` ms |
+| Backend `success: true` | Continuar flujo normal |
 | Timeout / error de red | Registrar igualmente en `MEMORY.md`, agregar nota `webhook: pendiente` |
 | `success: false` con mensaje | Informar al conserje: "⚠️ Error al registrar en sistema: [mensaje]" |
 
@@ -112,7 +160,7 @@ Usar el `paquete_id` retornado como ID del delivery en `MEMORY.md` y en el log.
 > 1. Parsear → `depto=302, empresa=Falabella, categoria=encomienda`
 > 2. Llamar `registrarPaquete()` → recibe `paquete_id: "302-123456"`
 > 3. Registrar en `MEMORY.md` con ese ID
-> 4. Notificar a Carlos (depto 302) vía Telegram
+> 4. Notificar a Carlos (depto 302) vía Discord webhook
 > 5. Eco al conserje del mensaje enviado
 
 ---
@@ -222,14 +270,14 @@ Automáticamente después de registrar la recepción (Estado 1).
 ### Qué hacer
 
 1. **Buscar al residente en `MEMORY.md` → `## Residentes` por número de depto.**
-   - Leer: `telegram_id`, `trato` (tu/usted), `autorizados`
+   - Leer: `discord_id`, `trato` (tu/usted), `autorizados`
 
 2. **Según el canal disponible:**
 
    | Situación | Acción |
    |-----------|--------|
-   | Residente tiene `telegram_id` | Enviar mensaje directo (plantillas abajo) |
-   | Residente sin `telegram_id` | "⚠️ El depto [N] no tiene Telegram. Hay que llamarlo para avisarle." |
+   | Residente tiene `discord_id` | Enviar mensaje directo (plantillas abajo) |
+   | Residente sin `discord_id` | "⚠️ El depto [N] no tiene Discord. Hay que llamarlo para avisarle." |
    | Residente no registrado en `## Residentes` | "No tengo registrado al residente del [depto]. ¿Me das su nombre para registrarlo?" |
 
 3. **Plantillas de notificación** (respetar el `trato` registrado):
@@ -253,7 +301,7 @@ Automáticamente después de registrar la recepción (Estado 1).
    ```
    ## [HH:MM] NOTIFICACION — Depto [N]
    - **Estado**: NOTIFICADO
-   - **Mensaje enviado a**: [telegram_id / nombre]
+   - **Mensaje enviado a**: [discord_id / nombre]
    - **Categoría**: [food/supermercado/encomienda]
    ```
 
