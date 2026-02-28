@@ -32,16 +32,35 @@ seguimiento, reintentar, y cerrar el ciclo.
 
 ---
 
-## INTEGRACIÓN DISCORD (Composio + Webhook)
+## CREDENCIALES Y API KEYS
 
-Las notificaciones a residentes se envían al servidor Discord **DonElias**
-usando un webhook. El AIC envía mensajes al canal correspondiente del
-residente (o al #general si no hay canal específico).
+```
+# Discord Webhook (canal #general del servidor DonElias)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/1477409864639840347/gx1xKYG5tDXhAzIAD5I51TqV_YdAmYrB54LSWRKBD7hExTcwzN-3BbnFVEALmwtJrWyH
+
+# Composio API Key
+COMPOSIO_API_KEY=ak_v63-q9ToocYWMuz05Nvu
+
+# Discord Server IDs
+DISCORD_GUILD_ID=1477408784417816677
+DISCORD_SYSTEM_CHANNEL_ID=1477408784870674484
+
+# Composio Connected Account (Discord Bot OAuth)
+COMPOSIO_CONNECTED_ACCOUNT_ID=823da91e-3407-4b2d-8871-2262b956e281
+```
+
+---
+
+## INTEGRACIÓN DISCORD (Webhook)
+
+Todas las notificaciones a residentes se envían al canal **#general** del
+servidor Discord **DonElias** usando el webhook. No se requiere `discord_id`
+por residente — todos los mensajes van al canal general.
 
 ### Discord Webhook — Notificación a Residentes
 
 ```
-POST https://discord.com/api/webhooks/{WEBHOOK_ID}/{WEBHOOK_TOKEN}
+POST https://discord.com/api/webhooks/1477409864639840347/gx1xKYG5tDXhAzIAD5I51TqV_YdAmYrB54LSWRKBD7hExTcwzN-3BbnFVEALmwtJrWyH
 Content-Type: application/json
 ```
 
