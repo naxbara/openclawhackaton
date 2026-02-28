@@ -17,7 +17,7 @@
 ### Depto 501
 
 - **Residente**: Maria Gonzalez
-- **Telegram**: @maria_gonzalez_501
+- **Discord**: @maria_gonzalez_501
 - **Trato**: tu
 - **Autorizados**:
   - Mariana Lopez (asesora domestica, L/M/V 08:00-18:00)
@@ -26,14 +26,14 @@
 ### Depto 302
 
 - **Residente**: Carlos Munoz
-- **Telegram**: @carlos_munoz_302
+- **Discord**: @carlos_munoz_302
 - **Trato**: usted
 - **Autorizados**: (ninguno registrado)
 
 ### Depto 104
 
 - **Residente**: Ana Reyes
-- **Telegram**: @ana_reyes_104
+- **Discord**: @ana_reyes_104
 - **Trato**: tu
 - **Autorizados**:
   - Pedro Reyes (esposo, permanente)
@@ -41,14 +41,14 @@
 ### Depto 207
 
 - **Residente**: Roberto Soto
-- **Telegram**: @roberto_soto_207
+- **Discord**: @roberto_soto_207
 - **Trato**: usted
 - **Autorizados**: (ninguno registrado)
 
 ### Depto 410
 
 - **Residente**: Valentina Torres
-- **Telegram**: @vale_torres_410
+- **Discord**: @vale_torres_410
 - **Trato**: tu
 - **Autorizados**:
   - Camila Torres (hermana, permanente)

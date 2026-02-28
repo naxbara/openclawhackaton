@@ -6,6 +6,7 @@
 2. **Privacidad**: datos de cada depto son confidenciales entre departamentos
 3. **Trazabilidad**: cada registro incluye fecha, hora, quien, que
 4. **Velocidad**: la urgencia depende de la categoria — comida se enfria, perecibles se danan, paquetes pueden esperar
+5. **Solo Discord**: TODAS las notificaciones a residentes van al canal #general de Discord via webhook. NUNCA usar Telegram, WhatsApp, SMS ni otro canal
 
 ---
 
@@ -25,7 +26,7 @@ RECIBIDO → NOTIFICADO → STANDBY → ENTREGADO
 | Estado     | Trigger de entrada        | Accion del agente                          |
 | ---------- | ------------------------- | ------------------------------------------ |
 | RECIBIDO   | Conserje registra llegada | Guardar datos + auto-clasificar categoria  |
-| NOTIFICADO | Automatico tras RECIBIDO  | Enviar mensaje Telegram al residente       |
+| NOTIFICADO | Automatico tras RECIBIDO  | Enviar mensaje al canal #general de Discord via webhook |
 | STANDBY    | Timeout sin retiro        | Enviar recordatorio (tono segun urgencia)  |
 | ENTREGADO  | Residente confirma retiro | Cerrar loop, actualizar log y MEMORY       |
 | EXPIRADO   | Timeout final sin retiro  | Alertar admin, registrar como no reclamado |
@@ -104,7 +105,7 @@ El conserje NO necesita decir la categoria.
 | ----------- | ------ | --------- | ------------------------- |
 | name        | string | si        | Nombre completo           |
 | phone       | string | no        | Telefono (+56 9...)       |
-| telegram_id | string | no        | Username o ID de Telegram |
+| discord_id | string | no        | Username de Discord (opcional, todas las notificaciones van al canal #general) |
 
 ### Unit (Kind)
 
@@ -159,7 +160,7 @@ Cada entrada en `memory/YYYY-MM-DD.md`:
 ```
 ## [HH:MM] NOTIFICACION — Depto [N]
 - **Estado**: NOTIFICADO
-- **Mensaje enviado a**: [telegram_id / nombre]
+- **Mensaje enviado a**: #general (Discord webhook)
 - **Categoria**: [food/supermercado/encomienda]
 ```
 
