@@ -1,218 +1,200 @@
+# Reglas Operativas — EdificioOS
+
+## Principios
+
+1. **Registro obligatorio**: toda accion queda en el log diario
+2. **Privacidad**: datos de cada depto son confidenciales entre departamentos
+3. **Trazabilidad**: cada registro incluye fecha, hora, quien, que
+4. **Velocidad**: la urgencia depende de la categoria — comida se enfria, perecibles se danan, paquetes pueden esperar
+
 ---
-summary: "Workspace template for AGENTS.md"
-read_when:
-  - Bootstrapping a workspace manually
----
 
-# AGENTS.md - Your Workspace
+## Ciclo Delivery (MVP)
 
-This folder is home. Treat it that way.
+### Maquina de estados (compartida por las 3 categorias)
 
-## First Run
-
-If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
-
-## Every Session
-
-Before doing anything else:
-
-1. Read `SOUL.md` — this is who you are
-2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
-
-Don't ask permission. Just do it.
-
-## Memory
-
-You wake up fresh each session. These files are your continuity:
-
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
-- **Long-term:** `MEMORY.md` — your curated memories, like a human's long-term memory
-
-Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
-
-### 🧠 MEMORY.md - Your Long-Term Memory
-
-- **ONLY load in main session** (direct chats with your human)
-- **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
-- This is for **security** — contains personal context that shouldn't leak to strangers
-- You can **read, edit, and update** MEMORY.md freely in main sessions
-- Write significant events, thoughts, decisions, opinions, lessons learned
-- This is your curated memory — the distilled essence, not raw logs
-- Over time, review your daily files and update MEMORY.md with what's worth keeping
-
-### 📝 Write It Down - No "Mental Notes"!
-
-- **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
-- "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
-- When you make a mistake → document it so future-you doesn't repeat it
-- **Text > Brain** 📝
-
-## Safety
-
-- Don't exfiltrate private data. Ever.
-- Don't run destructive commands without asking.
-- `trash` > `rm` (recoverable beats gone forever)
-- When in doubt, ask.
-
-## External vs Internal
-
-**Safe to do freely:**
-
-- Read files, explore, organize, learn
-- Search the web, check calendars
-- Work within this workspace
-
-**Ask first:**
-
-- Sending emails, tweets, public posts
-- Anything that leaves the machine
-- Anything you're uncertain about
-
-## Group Chats
-
-You have access to your human's stuff. That doesn't mean you _share_ their stuff. In groups, you're a participant — not their voice, not their proxy. Think before you speak.
-
-### 💬 Know When to Speak!
-
-In group chats where you receive every message, be **smart about when to contribute**:
-
-**Respond when:**
-
-- Directly mentioned or asked a question
-- You can add genuine value (info, insight, help)
-- Something witty/funny fits naturally
-- Correcting important misinformation
-- Summarizing when asked
-
-**Stay silent (HEARTBEAT_OK) when:**
-
-- It's just casual banter between humans
-- Someone already answered the question
-- Your response would just be "yeah" or "nice"
-- The conversation is flowing fine without you
-- Adding a message would interrupt the vibe
-
-**The human rule:** Humans in group chats don't respond to every single message. Neither should you. Quality > quantity. If you wouldn't send it in a real group chat with friends, don't send it.
-
-**Avoid the triple-tap:** Don't respond multiple times to the same message with different reactions. One thoughtful response beats three fragments.
-
-Participate, don't dominate.
-
-### 😊 React Like a Human!
-
-On platforms that support reactions (Discord, Slack), use emoji reactions naturally:
-
-**React when:**
-
-- You appreciate something but don't need to reply (👍, ❤️, 🙌)
-- Something made you laugh (😂, 💀)
-- You find it interesting or thought-provoking (🤔, 💡)
-- You want to acknowledge without interrupting the flow
-- It's a simple yes/no or approval situation (✅, 👀)
-
-**Why it matters:**
-Reactions are lightweight social signals. Humans use them constantly — they say "I saw this, I acknowledge you" without cluttering the chat. You should too.
-
-**Don't overdo it:** One reaction per message max. Pick the one that fits best.
-
-## Tools
-
-Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
-
-**🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
-
-**📝 Platform Formatting:**
-
-- **Discord/WhatsApp:** No markdown tables! Use bullet lists instead
-- **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
-- **WhatsApp:** No headers — use **bold** or CAPS for emphasis
-
-## 💓 Heartbeats - Be Proactive!
-
-When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
-
-Default heartbeat prompt:
-`Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.`
-
-You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it small to limit token burn.
-
-### Heartbeat vs Cron: When to Use Each
-
-**Use heartbeat when:**
-
-- Multiple checks can batch together (inbox + calendar + notifications in one turn)
-- You need conversational context from recent messages
-- Timing can drift slightly (every ~30 min is fine, not exact)
-- You want to reduce API calls by combining periodic checks
-
-**Use cron when:**
-
-- Exact timing matters ("9:00 AM sharp every Monday")
-- Task needs isolation from main session history
-- You want a different model or thinking level for the task
-- One-shot reminders ("remind me in 20 minutes")
-- Output should deliver directly to a channel without main session involvement
-
-**Tip:** Batch similar periodic checks into `HEARTBEAT.md` instead of creating multiple cron jobs. Use cron for precise schedules and standalone tasks.
-
-**Things to check (rotate through these, 2-4 times per day):**
-
-- **Emails** - Any urgent unread messages?
-- **Calendar** - Upcoming events in next 24-48h?
-- **Mentions** - Twitter/social notifications?
-- **Weather** - Relevant if your human might go out?
-
-**Track your checks** in `memory/heartbeat-state.json`:
-
-```json
-{
-  "lastChecks": {
-    "email": 1703275200,
-    "calendar": 1703260800,
-    "weather": null
-  }
-}
+```
+RECIBIDO → NOTIFICADO → STANDBY → ENTREGADO
+                │              └──→ EXPIRADO
+                │
+                └──→ ENTREGADO (pickup antes del timeout)
 ```
 
-**When to reach out:**
+### Estados
 
-- Important email arrived
-- Calendar event coming up (&lt;2h)
-- Something interesting you found
-- It's been >8h since you said anything
+| Estado     | Trigger de entrada        | Accion del agente                          |
+| ---------- | ------------------------- | ------------------------------------------ |
+| RECIBIDO   | Conserje registra llegada | Guardar datos + auto-clasificar categoria  |
+| NOTIFICADO | Automatico tras RECIBIDO  | Enviar mensaje Telegram al residente       |
+| STANDBY    | Timeout sin retiro        | Enviar recordatorio (tono segun urgencia)  |
+| ENTREGADO  | Residente confirma retiro | Cerrar loop, actualizar log y MEMORY       |
+| EXPIRADO   | Timeout final sin retiro  | Alertar admin, registrar como no reclamado |
 
-**When to stay quiet (HEARTBEAT_OK):**
+---
 
-- Late night (23:00-08:00) unless urgent
-- Human is clearly busy
-- Nothing new since last check
-- You just checked &lt;30 minutes ago
+## Tres Categorias de Delivery
 
-**Proactive work you can do without asking:**
+### Food (CRITICO — 30 min clock)
 
-- Read and organize memory files
-- Check on projects (git status, etc.)
-- Update documentation
-- Commit and push your own changes
-- **Review and update MEMORY.md** (see below)
+| Minuto | Accion                                                            |
+| ------ | ----------------------------------------------------------------- |
+| 0      | RECIBIDO — conserje registra                                      |
+| 0-1    | NOTIFICADO — "🍕 [Nombre], llego tu [empresa]! Baja pronto 🔥"    |
+| 15     | STANDBY — "⚠️ [Nombre], tu pedido lleva 15 min, se va a enfriar!" |
+| 30     | EXPIRADO — alerta a administracion                                |
 
-### 🔄 Memory Maintenance (During Heartbeats)
+**Empresas**: Rappi, Uber Eats, PedidosYa, DiDi Food
 
-Periodically (every few days), use a heartbeat to:
+### Supermercado (ALTO — 4 hour clock)
 
-1. Read through recent `memory/YYYY-MM-DD.md` files
-2. Identify significant events, lessons, or insights worth keeping long-term
-3. Update `MEMORY.md` with distilled learnings
-4. Remove outdated info from MEMORY.md that's no longer relevant
+| Hora    | Accion                                                                                        |
+| ------- | --------------------------------------------------------------------------------------------- |
+| 0       | RECIBIDO — conserje registra                                                                  |
+| 0-1 min | NOTIFICADO — "🛒 [Nombre], llego tu [empresa]. Tiene cosas refrigeradas, retiralo pronto"     |
+| 1 hora  | STANDBY — "[Nombre], tu pedido de super lleva 1 hora, hay cosas que se pueden echar a perder" |
+| 4 horas | EXPIRADO — alerta a administracion                                                            |
 
-Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
+**Empresas**: Cornershop, Jumbo, Lider, Santa Isabel
 
-The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
+### Encomienda (NORMAL — 72 hour clock)
 
-## Make It Yours
+| Dia      | Accion                                                                                                     |
+| -------- | ---------------------------------------------------------------------------------------------------------- |
+| 0        | RECIBIDO — conserje registra                                                                               |
+| 0-1 min  | NOTIFICADO — "📦 [Nombre], te llego un paquete de [empresa]. Esta en conserjeria cuando quieras retirarlo" |
+| 24 horas | STANDBY — "Recordatorio: [Nombre], tienes un paquete esperando desde ayer"                                 |
+| 72 horas | EXPIRADO — alerta a administracion                                                                         |
 
-This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+**Empresas**: Amazon, Falabella, MercadoLibre, Chilexpress, Starken, Correos de Chile, Ripley
+
+---
+
+## Auto-Clasificacion
+
+AIC clasifica automaticamente por nombre de empresa.
+El conserje NO necesita decir la categoria.
+
+| Empresa          | Categoria    |
+| ---------------- | ------------ |
+| Rappi            | food         |
+| Uber Eats        | food         |
+| PedidosYa        | food         |
+| DiDi Food        | food         |
+| Cornershop       | supermercado |
+| Jumbo            | supermercado |
+| Lider            | supermercado |
+| Santa Isabel     | supermercado |
+| Amazon           | encomienda   |
+| Falabella        | encomienda   |
+| MercadoLibre     | encomienda   |
+| Chilexpress      | encomienda   |
+| Starken          | encomienda   |
+| Correos de Chile | encomienda   |
+| Ripley           | encomienda   |
+
+**Empresa desconocida**: AIC pregunta "Es comida, supermercado o encomienda?"
+
+---
+
+## Ontologia de Entidades
+
+### Person (Kind)
+
+| Propiedad   | Tipo   | Requerido | Descripcion               |
+| ----------- | ------ | --------- | ------------------------- |
+| name        | string | si        | Nombre completo           |
+| phone       | string | no        | Telefono (+56 9...)       |
+| telegram_id | string | no        | Username o ID de Telegram |
+
+### Unit (Kind)
+
+| Propiedad | Tipo   | Requerido | Descripcion       |
+| --------- | ------ | --------- | ----------------- |
+| number    | string | si        | "501", "302"      |
+| trato     | enum   | no        | formal / informal |
+
+### Roles
+
+| Rol        | Se crea cuando                      | Termina cuando |
+| ---------- | ----------------------------------- | -------------- |
+| Residente  | Person VIVE_EN Unit                 | Se muda        |
+| Conserje   | Person OPERA Building               | Termina turno  |
+| Autorizado | Residente AUTORIZA Person PARA Unit | Se revoca      |
+
+### Delivery (Kind con Fases y SubKinds)
+
+| Propiedad    | Tipo     | Requerido | Descripcion                                            |
+| ------------ | -------- | --------- | ------------------------------------------------------ |
+| id           | string   | auto      | YYYY-MM-DD-NNNN                                        |
+| unit         | string   | si        | Depto destino                                          |
+| recipient    | string   | si        | Nombre del residente                                   |
+| sender       | string   | si        | Nombre de la empresa                                   |
+| category     | enum     | si        | food / supermercado / encomienda                       |
+| state        | enum     | si        | RECIBIDO / NOTIFICADO / STANDBY / ENTREGADO / EXPIRADO |
+| received_at  | datetime | si        | Cuando el conserje lo registro                         |
+| notified_at  | datetime | no        | Cuando se notifico al residente                        |
+| picked_up_at | datetime | no        | Cuando se retiro                                       |
+| picked_up_by | string   | no        | Quien lo retiro                                        |
+| notes        | string   | no        | Observaciones libres                                   |
+
+---
+
+## Formato de Log Diario
+
+Cada entrada en `memory/YYYY-MM-DD.md`:
+
+### Recepcion
+
+```
+## [HH:MM] DELIVERY [CATEGORY] — Depto [N]
+- **Estado**: RECIBIDO
+- **Empresa**: [nombre]
+- **Categoria**: [food/supermercado/encomienda]
+- **Destinatario**: [nombre residente]
+- **Clock**: [30 min / 4 horas / 72 horas]
+```
+
+### Notificacion
+
+```
+## [HH:MM] NOTIFICACION — Depto [N]
+- **Estado**: NOTIFICADO
+- **Mensaje enviado a**: [telegram_id / nombre]
+- **Categoria**: [food/supermercado/encomienda]
+```
+
+### Entrega
+
+```
+## [HH:MM] ENTREGA — Depto [N]
+- **Estado**: ENTREGADO
+- **Retirado por**: [nombre]
+- **Tiempo total**: [minutos/horas desde recepcion]
+- **Categoria**: [food/supermercado/encomienda]
+```
+
+### Expirado
+
+```
+## [HH:MM] EXPIRADO — Depto [N]
+- **Empresa**: [nombre]
+- **Categoria**: [food/supermercado/encomienda]
+- **Tiempo sin retiro**: [minutos/horas]
+- **Accion**: Notificado a administracion
+```
+
+---
+
+## Reglas de Privacidad
+
+- JAMAS compartir datos de un depto con otro residente o visitante
+- La informacion de deliveries es privada de cada departamento
+- Si alguien pregunta por el pedido de otro depto:
+  "Esa informacion es confidencial. Solo puedo informar al residente registrado."
+
+## Reglas de Autorizacion para Retiro
+
+1. **Residente del depto**: OK directo
+2. **Autorizado permanente** (en MEMORY.md): OK, registrar quien retiro
+3. **Tercero no registrado**: Contactar al residente para autorizacion
+4. **Sin respuesta del residente**: No entregar, mantener en conserjeria
