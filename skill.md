@@ -270,15 +270,12 @@ Automáticamente después de registrar la recepción (Estado 1).
 ### Qué hacer
 
 1. **Buscar al residente en `MEMORY.md` → `## Residentes` por número de depto.**
-   - Leer: `discord_id`, `trato` (tu/usted), `autorizados`
+   - Leer: nombre, `trato` (tu/usted), `autorizados`
 
-2. **Según el canal disponible:**
-
-   | Situación | Acción |
-   |-----------|--------|
-   | Residente tiene `discord_id` | Enviar mensaje directo (plantillas abajo) |
-   | Residente sin `discord_id` | "⚠️ El depto [N] no tiene Discord. Hay que llamarlo para avisarle." |
-   | Residente no registrado en `## Residentes` | "No tengo registrado al residente del [depto]. ¿Me das su nombre para registrarlo?" |
+2. **Enviar notificación al canal general de Discord** (webhook):
+   - Todas las notificaciones van al canal `#general` del servidor Discord via webhook
+   - Mencionar al residente por nombre en el mensaje
+   - Si el residente no está registrado en `## Residentes`: "No tengo registrado al residente del [depto]. ¿Me das su nombre para registrarlo?"
 
 3. **Plantillas de notificación** (respetar el `trato` registrado):
 
@@ -301,7 +298,7 @@ Automáticamente después de registrar la recepción (Estado 1).
    ```
    ## [HH:MM] NOTIFICACION — Depto [N]
    - **Estado**: NOTIFICADO
-   - **Mensaje enviado a**: [discord_id / nombre]
+   - **Mensaje enviado a**: #general (Discord webhook)
    - **Categoría**: [food/supermercado/encomienda]
    ```
 
